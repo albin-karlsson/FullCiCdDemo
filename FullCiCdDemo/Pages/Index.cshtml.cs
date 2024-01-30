@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace FullCiCdDemo.Pages
 {
@@ -14,7 +14,8 @@ namespace FullCiCdDemo.Pages
 
         public void OnGet()
         {
-
+            string test = "Hello world";
+            var result = JsonConvert.SerializeObject(test);
         }
     }
 }
