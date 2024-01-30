@@ -63,7 +63,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Create publish files
+      - name: Create publish files # Dummy comment
         run: dotnet publish --configuration Release --output ./publish
 
       - name: Deploy to Azure
