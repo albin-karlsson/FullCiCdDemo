@@ -12,12 +12,21 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4.1.1
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: '8.0'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4.0.0
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+
       - name: Install dependencies
         run: dotnet restore
+
       - name: Print job complete
         run: echo "Test job complete $(date)!" # Printa ut datum + klockslag
   publish-project:
@@ -26,11 +35,20 @@ jobs:
     steps:
       - name: Print job started
         run: echo "Publish job started $(date)!"
+
       - name: Check out code
         uses: actions/checkout@v4.1.1
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: '8.0'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4.0.0
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+
       - name: Install dependencies
         run: dotnet restore
