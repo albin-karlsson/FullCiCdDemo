@@ -18,11 +18,12 @@ jobs:
         with:
           dotnet-version: '8.0'
 
-      - name: Cache dependencies
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+                        ${{ runner.os }}-nuget-
 
       - name: Install dependencies
         run: dotnet restore
@@ -44,11 +45,12 @@ jobs:
         with:
           dotnet-version: '8.0'
 
-      - name: Cache dependencies # Cache NuGet packages
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+                        ${{ runner.os }}-nuget-
 
       - name: Install dependencies
         run: dotnet restore
