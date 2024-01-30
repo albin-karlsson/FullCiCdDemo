@@ -27,6 +27,12 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
 
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+
       - name: Print job complete
         run: echo "Test job complete $(date)!" # Printa ut datum + klockslag
 
@@ -53,3 +59,26 @@ jobs:
 
       - name: Install dependencies
         run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Create publish files
+        run: dotnet publish --configuration Release --output ./publish
+
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v3.0.0
+        with:
+          app-name: 'github-actions-test-albin-123'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: './publish'
+
+  create-issue:
+    runs-on: ubuntu-latest
+    needs: test-project
+    if: failure()
+    steps:
+      - name: Print message
+        run: |
+          echo "Tests failed. . ."
+          echo "Creating issue. . ."
